@@ -21,6 +21,7 @@ export default function PostForm({ post }) {
     const submit = async (data) => {
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
             }
@@ -35,6 +36,7 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
+
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
@@ -94,7 +96,7 @@ export default function PostForm({ post }) {
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: false })}
+                    {...register("image", { required: !post })}
                 />
                 {post && (
                     <div className="w-full mb-4">
